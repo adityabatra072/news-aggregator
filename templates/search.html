@@ -3,288 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Results - News Aggregator</title>
+    <title>Search Results - NewsHub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+          rel="stylesheet">
     <style>
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
         }
 
-        header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px 40px;
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        header p {
-            opacity: 0.9;
-            font-size: 1.1em;
-        }
-
-        nav {
-            background: #f8f9fa;
-            padding: 20px 40px;
-            border-bottom: 1px solid #e0e0e0;
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        nav a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: all 0.3s;
-        }
-
-        nav a:hover {
-            background: #667eea;
-            color: white;
-        }
-
-        .search-form {
-            display: flex;
-            gap: 10px;
-            flex: 1;
-            max-width: 500px;
-        }
-
-        .search-form input {
-            flex: 1;
-            padding: 12px 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1em;
-            transition: border-color 0.3s;
-        }
-
-        .search-form input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn:hover {
-            background: #764ba2;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-secondary {
-            background: #28a745;
-        }
-
-        .btn-secondary:hover {
-            background: #218838;
-        }
-
-        main {
-            padding: 40px;
-            min-height: 400px;
-        }
-
-        .search-info {
-            margin-bottom: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-
-        .search-info h2 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .search-info p {
-            color: #666;
-        }
-
-        .article-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .article-item {
-            background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 25px;
-            transition: all 0.3s;
-        }
-
-        .article-item:hover {
+        .card-hover:hover {
             transform: translateX(5px);
-            border-color: #667eea;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
         }
 
-        .article-meta {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
-        }
-
-        .badge {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: 600;
-        }
-
-        .badge-source {
-            background: #e3f2fd;
-            color: #1976d2;
-        }
-
-        .badge-category {
-            background: #f3e5f5;
-            color: #7b1fa2;
-        }
-
-        .article-title {
-            font-size: 1.5em;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: #333;
-        }
-
-        .article-title a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        .article-title a:hover {
-            color: #667eea;
-        }
-
-        .article-summary {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .article-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 15px;
-            border-top: 1px solid #e0e0e0;
-        }
-
-        .article-date {
-            color: #999;
-            font-size: 0.9em;
-        }
-
-        .read-more {
-            color: #667eea;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 30px;
-        }
-
-        .pagination a, .pagination span {
-            padding: 10px 15px;
-            border-radius: 8px;
-            text-decoration: none;
-            color: #667eea;
-            border: 2px solid #e0e0e0;
-            transition: all 0.3s;
-        }
-
-        .pagination a:hover {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-
-        .pagination .active {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-
-        .no-results {
-            text-align: center;
-            padding: 60px 20px;
-            color: #666;
-        }
-
-        .no-results h2 {
-            font-size: 2em;
-            margin-bottom: 15px;
-        }
-
-        footer {
-            background: #f8f9fa;
-            padding: 20px 40px;
-            text-align: center;
-            color: #6c757d;
-            border-top: 1px solid #e0e0e0;
-        }
-
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .loading.active {
-            display: block;
-        }
-
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
+        .loading-spinner {
+            border: 3px solid rgba(99, 102, 241, 0.1);
             border-radius: 50%;
+            border-top: 3px solid #6366f1;
             width: 40px;
             height: 40px;
             animation: spin 1s linear infinite;
-            margin: 0 auto;
         }
 
         @keyframes spin {
@@ -295,160 +58,203 @@
                 transform: rotate(360deg);
             }
         }
-
-        .alert {
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
     </style>
 </head>
-<body>
-<div class="container">
-    <header>
-        <h1>📰 News Aggregator</h1>
-        <p>Your one-stop destination for news from multiple sources</p>
-    </header>
+<body class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 min-h-screen">
 
-    <nav>
-        <a href="/">Home</a>
-        <a href="/stats">Statistics</a>
+<!-- Navigation -->
+<nav class="sticky top-0 z-50 glass-effect shadow-2xl">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-white">News<span class="text-indigo-400">Hub</span></h1>
+                    <p class="text-xs text-gray-300">Your Modern News Platform</p>
+                </div>
+            </div>
 
-        <form class="search-form" action="/search" method="get">
-            <input type="text" name="q" placeholder="Search articles..." value="{{ query }}">
-            <button type="submit" class="btn">Search</button>
-        </form>
-
-        <button class="btn btn-secondary" onclick="scrapeNews()">Refresh News</button>
-    </nav>
-
-    <main>
-        <div id="alert-container"></div>
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Scraping news articles...</p>
+            <div class="flex items-center space-x-4">
+                <a href="/" class="text-white hover:text-indigo-400 transition px-4 py-2 rounded-lg hover:bg-white/10">Home</a>
+                <a href="/stats"
+                   class="text-white hover:text-indigo-400 transition px-4 py-2 rounded-lg hover:bg-white/10">Stats</a>
+            </div>
         </div>
 
-        {% if query %}
-        <div class="search-info">
-            <h2>Search Results for "{{ query }}"</h2>
-            <p>Found {{ articles.total }} articles</p>
+        <!-- Search Bar -->
+        <div class="mt-4">
+            <form action="/search" method="get" class="flex gap-3">
+                <div class="flex-1 relative">
+                    <input type="text" name="q" value="{{ query }}" placeholder="Search for news, topics, keywords..."
+                           class="w-full px-6 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition backdrop-blur-sm">
+                    <svg class="w-5 h-5 absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400" fill="none"
+                         stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+                <button type="submit"
+                        class="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl font-semibold hover:from-indigo-700 hover:to-purple-700 transition shadow-lg">
+                    Search
+                </button>
+            </form>
+        </div>
+    </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-6 py-8">
+
+    {% if query %}
+        <!-- Search Info -->
+        <div class="glass-effect rounded-2xl p-8 mb-8 shadow-xl animate-fade-in-up">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-3xl font-bold text-white mb-2">Search Results for "<span class="text-indigo-400">{{ query }}</span>"
+                    </h2>
+                    <p class="text-gray-300">Found <span class="font-semibold text-white">{{ articles.total }}</span>
+                        matching articles</p>
+                </div>
+                <div class="w-16 h-16 bg-gradient-to-br from-indigo-500/20 to-purple-600/20 rounded-full flex items-center justify-center">
+                    <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+            </div>
         </div>
         {% endif %}
 
         {% if articles.items %}
-        <div class="article-list">
+        <!-- Results List -->
+        <div class="space-y-6 mb-8">
             {% for article in articles.items %}
-            <div class="article-item">
-                <div class="article-meta">
-                    {% if article.source %}
-                    <span class="badge badge-source">{{ article.source }}</span>
+            <div class="card-hover glass-effect rounded-2xl overflow-hidden shadow-xl animate-fade-in-up"
+                 style="animation-delay: {{ loop.index0 * 0.05 }}s">
+                <div class="p-6">
+                    <!-- Badges -->
+                    <div class="flex gap-2 mb-4 flex-wrap">
+                        {% if article.source %}
+                        <span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-full text-xs font-semibold border border-indigo-500/30">
+                            {{ article.source }}
+                        </span>
+                        {% endif %}
+                        {% if article.category %}
+                        <span class="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs font-semibold border border-purple-500/30">
+                            {{ article.category }}
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Title -->
+                    <h3 class="text-2xl font-bold text-white mb-3 hover:text-indigo-400 transition">
+                        <a href="/article/{{ article.id }}">{{ article.title }}</a>
+                    </h3>
+
+                    <!-- Summary -->
+                    {% if article.summary %}
+                    <p class="text-gray-300 mb-4 line-clamp-3">{{ article.summary }}</p>
                     {% endif %}
-                    {% if article.category %}
-                    <span class="badge badge-category">{{ article.category }}</span>
-                    {% endif %}
-                </div>
 
-                <h2 class="article-title">
-                    <a href="/article/{{ article.id }}">{{ article.title }}</a>
-                </h2>
-
-                {% if article.summary %}
-                <p class="article-summary">{{ article.summary }}</p>
-                {% endif %}
-
-                <div class="article-footer">
-                        <span class="article-date">
+                    <!-- Footer -->
+                    <div class="flex items-center justify-between pt-4 border-t border-white/10">
+                        <span class="text-gray-400 text-sm flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
                             {% if article.publication_date %}
                             {{ article.publication_date.strftime('%b %d, %Y') }}
                             {% endif %}
                         </span>
-                    <a href="{{ article.url }}" target="_blank" class="read-more">Read Full Article →</a>
+                        <a href="{{ article.url }}" target="_blank"
+                           class="text-indigo-400 hover:text-indigo-300 font-semibold flex items-center group">
+                            Read Original
+                            <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition" fill="none"
+                                 stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
             </div>
             {% endfor %}
         </div>
 
+        <!-- Pagination -->
         {% if articles.pages > 1 %}
-        <div class="pagination">
+        <div class="flex justify-center items-center gap-2">
             {% if articles.has_prev %}
-            <a href="?q={{ query }}&page={{ articles.prev_num }}">← Previous</a>
+            <a href="?q={{ query }}&page={{ articles.prev_num }}"
+               class="px-4 py-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition flex items-center">
+                <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                Previous
+            </a>
             {% endif %}
 
             {% for page_num in articles.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
             {% if page_num %}
             {% if page_num == articles.page %}
-            <span class="active">{{ page_num }}</span>
+            <span class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-semibold">{{ page_num }}</span>
             {% else %}
-            <a href="?q={{ query }}&page={{ page_num }}">{{ page_num }}</a>
+            <a href="?q={{ query }}&page={{ page_num }}"
+               class="px-4 py-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition">{{ page_num }}</a>
             {% endif %}
             {% else %}
-            <span>...</span>
+            <span class="px-2 text-gray-500">...</span>
             {% endif %}
             {% endfor %}
 
             {% if articles.has_next %}
-            <a href="?q={{ query }}&page={{ articles.next_num }}">Next →</a>
+            <a href="?q={{ query }}&page={{ articles.next_num }}"
+               class="px-4 py-2 bg-white/10 text-white rounded-lg hover:bg-white/20 transition flex items-center">
+                Next
+                <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </a>
             {% endif %}
         </div>
         {% endif %}
 
         {% else %}
-        <div class="no-results">
-            <h2>No Results Found</h2>
-            {% if query %}
-            <p>No articles match your search for "{{ query }}". Try different keywords.</p>
-            {% else %}
-            <p>Enter a search term to find articles.</p>
-            {% endif %}
+        <!-- No Results -->
+        <div class="text-center py-20">
+            <div class="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-indigo-500/20 to-purple-600/20 rounded-full flex items-center justify-center">
+                <svg class="w-16 h-16 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </div>
+            <h2 class="text-3xl font-bold text-white mb-4">No Results Found</h2>
+            <p class="text-gray-400 mb-8">
+                {% if query %}
+                No articles match your search for "{{ query }}". Try different keywords.
+                {% else %}
+                Enter a search term to find articles.
+                {% endif %}
+            </p>
+            <a href="/"
+               class="inline-block px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-2xl font-semibold hover:from-indigo-700 hover:to-purple-700 transition shadow-lg">
+                Back to Home
+            </a>
         </div>
         {% endif %}
     </main>
 
-    <footer>
-        <p>&copy; 2024 News Aggregator | Built with Flask & Python</p>
+    <footer class="glass-effect mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <p class="text-gray-300">Built with <span class="text-red-500">♥</span> using Flask & Modern Web
+                Technologies</p>
+            <p class="text-gray-500 text-sm mt-2"> 2024 NewsHub - Your Modern News Platform</p>
+        </div>
     </footer>
-</div>
-
-<script>
-    function scrapeNews() {
-        const loading = document.getElementById('loading');
-        const alertContainer = document.getElementById('alert-container');
-
-        loading.classList.add('active');
-        alertContainer.innerHTML = '';
-
-        fetch('/scrape', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                loading.classList.remove('active');
-
-                const alertClass = data.success ? 'alert-success' : 'alert-error';
-                alertContainer.innerHTML = '<div class="alert ' + alertClass + '">' + data.message + '</div>';
-
-                if (data.success) {
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 2000);
-                }
-            })
-            .catch(error => {
-                loading.classList.remove('active');
-                alertContainer.innerHTML = '<div class="alert alert-error">Error: ' + error.message + '</div>';
-            });
-    }
-</script>
 </body>
 </html>
