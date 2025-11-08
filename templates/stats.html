@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics - News Aggregator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 40px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        nav {
+            background: #f8f9fa;
+            padding: 20px 40px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        nav a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        nav a:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .search-form input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .search-form input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #28a745;
+        }
+
+        .btn-secondary:hover {
+            background: #218838;
+        }
+
+        main {
+            padding: 40px;
+        }
+
+        .stats-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .stats-header h2 {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .total-count {
+            font-size: 3em;
+            font-weight: 800;
+            color: #667eea;
+            margin: 20px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-card h3 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .stat-list {
+            list-style: none;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .stat-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .stat-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .stat-value {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-size: 1.1em;
+        }
+
+        footer {
+            background: #f8f9fa;
+            padding: 20px 40px;
+            text-align: center;
+            color: #6c757d;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>📰 News Aggregator</h1>
+        <p>Your one-stop destination for news from multiple sources</p>
+    </header>
+
+    <nav>
+        <a href="/">Home</a>
+        <a href="/stats">Statistics</a>
+
+        <form class="search-form" action="/search" method="get">
+            <input type="text" name="q" placeholder="Search articles...">
+            <button type="submit" class="btn">Search</button>
+        </form>
+
+        <button class="btn btn-secondary" onclick="scrapeNews()">Refresh News</button>
+    </nav>
+
+    <main>
+        <div id="alert-container"></div>
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Scraping news articles...</p>
+        </div>
+
+        <div class="stats-header">
+            <h2>📊 Database Statistics</h2>
+            <div class="total-count">{{ total_articles }}</div>
+            <p style="font-size: 1.2em; color: #666;">Total Articles in Database</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>📰 Articles by Source</h3>
+                {% if sources %}
+                <ul class="stat-list">
+                    {% for source, count in sources %}
+                    <li class="stat-item">
+                        <span class="stat-name">{{ source }}</span>
+                        <span class="stat-value">{{ count }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <div class="no-data">No data available</div>
+                {% endif %}
+            </div>
+
+            <div class="stat-card">
+                <h3>🏷️ Articles by Category</h3>
+                {% if categories %}
+                <ul class="stat-list">
+                    {% for category, count in categories %}
+                    {% if category %}
+                    <li class="stat-item">
+                        <span class="stat-name">{{ category }}</span>
+                        <span class="stat-value">{{ count }}</span>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <div class="no-data">No data available</div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 News Aggregator | Built with Flask & Python</p>
+    </footer>
+</div>
+
+<script>
+    function scrapeNews() {
+        const loading = document.getElementById('loading');
+        const alertContainer = document.getElementById('alert-container');
+
+        loading.classList.add('active');
+        alertContainer.innerHTML = '';
+
+        fetch('/scrape', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                loading.classList.remove('active');
+
+                const alertClass = data.success ? 'alert-success' : 'alert-error';
+                alertContainer.innerHTML = '<div class="alert ' + alertClass + '">' + data.message + '</div>';
+
+                if (data.success) {
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 2000);
+                }
+            })
+            .catch(error => {
+                loading.classList.remove('active');
+                alertContainer.innerHTML = '<div class="alert alert-error">Error: ' + error.message + '</div>';
+            });
+    }
+</script>
+</body>
+</html>

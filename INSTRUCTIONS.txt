@@ -1,0 +1,175 @@
+================================================================================
+                    NEWS AGGREGATOR - INSTALLATION GUIDE
+================================================================================
+
+WHAT YOU NEED:
+--------------
+1. Python 3.7 or higher installed on your computer
+   (Check: Open command prompt and type: python --version)
+2. Internet connection
+3. A web browser (Chrome, Firefox, Edge, etc.)
+
+================================================================================
+
+STEP-BY-STEP INSTRUCTIONS:
+---------------------------
+
+STEP 1: INSTALL DEPENDENCIES
+-----------------------------
+1. Open Command Prompt or PowerShell
+2. Navigate to this folder:
+   
+   cd "C:\Users\ADITYA\Desktop\pbls 7th sem\Web Mining"
+
+3. Install required packages:
+   
+   pip install -r requirements.txt
+   
+   (This will take 1-2 minutes. Wait for it to complete.)
+
+STEP 2: START THE APPLICATION
+------------------------------
+1. In the same command prompt window, type:
+   
+   python app.py
+   
+2. You should see messages like:
+   * Running on http://0.0.0.0:5000
+   * Debug mode: on
+   
+3. KEEP THIS WINDOW OPEN while using the application!
+
+STEP 3: OPEN IN BROWSER
+------------------------
+1. Open your web browser
+2. Go to: http://localhost:5000
+3. You should see the News Aggregator homepage
+
+STEP 4: FETCH NEWS ARTICLES
+----------------------------
+1. The database will be empty initially
+2. Click the green "Refresh News" button at the top
+3. Wait 10-30 seconds for articles to be downloaded
+4. A success message will appear
+5. The page will reload automatically
+
+STEP 5: START USING THE APP
+----------------------------
+Now you can:
+- Browse news articles on the home page
+- Filter by source or category using the dropdowns
+- Search for articles using the search bar
+- Click article titles to read full details
+- View statistics by clicking "Statistics" in navigation
+- Refresh news anytime by clicking "Refresh News"
+
+================================================================================
+
+FEATURES EXPLAINED:
+-------------------
+
+HOME PAGE:
+- Displays all articles in a grid layout
+- Shows article image, title, summary, source, category
+- Click "Read Full Article" to visit the original website
+- Use filters to narrow down articles
+
+SEARCH:
+- Type keywords in the search bar
+- Searches through titles, summaries, and content
+- Shows number of results found
+
+ARTICLE DETAIL:
+- Click any article title to see full details
+- View complete metadata (author, date, source, category)
+- Read full content
+- Access original article link
+
+STATISTICS:
+- See total number of articles in database
+- View breakdown by source
+- View breakdown by category
+
+REFRESH NEWS:
+- Fetches latest articles from all news sources
+- Prevents duplicate articles automatically
+- Can be run anytime to get fresh content
+
+================================================================================
+
+TROUBLESHOOTING:
+----------------
+
+PROBLEM: "pip is not recognized"
+SOLUTION: Python is not in your PATH. Reinstall Python and check "Add to PATH"
+
+PROBLEM: "Module not found" error
+SOLUTION: Run: pip install Flask Flask-SQLAlchemy requests beautifulsoup4 feedparser python-dateutil lxml
+
+PROBLEM: "Port 5000 is already in use"
+SOLUTION: 
+- Close other applications using port 5000, OR
+- Edit app.py and change the port number in the last line to 5001
+
+PROBLEM: No articles appear after scraping
+SOLUTION:
+- Check your internet connection
+- Some news sources may be temporarily down
+- Try clicking "Refresh News" again after a few minutes
+
+PROBLEM: Application crashes or errors
+SOLUTION:
+- Delete the news.db file
+- Restart the application: python app.py
+- Click "Refresh News" again
+
+================================================================================
+
+TO STOP THE APPLICATION:
+------------------------
+1. Go to the command prompt window where the app is running
+2. Press Ctrl + C
+3. The server will stop
+
+TO RESTART:
+-----------
+1. Navigate to the folder again in command prompt
+2. Run: python app.py
+3. Open browser to http://localhost:5000
+
+================================================================================
+
+IMPORTANT NOTES:
+----------------
+- Keep the command prompt window open while using the application
+- The database file (news.db) stores all scraped articles
+- Articles remain in the database until you delete it
+- You can scrape new articles as often as you want
+- The application works offline for browsing already-scraped articles
+- Internet is only needed when clicking "Refresh News"
+
+================================================================================
+
+DATABASE LOCATION:
+------------------
+The news.db file is created in the same folder as app.py
+Full path: C:\Users\ADITYA\Desktop\pbls 7th sem\Web Mining\news.db
+
+To reset the database:
+1. Stop the application (Ctrl + C)
+2. Delete news.db file
+3. Restart: python app.py
+4. Click "Refresh News"
+
+================================================================================
+
+NEED MORE HELP?
+---------------
+- Read the detailed README.md file
+- Check the QUICKSTART.md for quick reference
+- Review error messages in the command prompt
+- Ensure Python 3.7+ is installed
+
+================================================================================
+
+ENJOY YOUR NEWS AGGREGATOR! 📰
